@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: php
+  name: php
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: php
+
+  template:
+    metadata:
+      labels:
+        app: php
+
+    spec:
+      containers:
+      - image: php:8.3-apache
+        name: php
+
+        command:
+        - /bin/bash
+        - -c
+        - |
+          cat <<EOF > /var/www/html/index.php
+          <?php
+          date_default_timezone_set("America/Sao_Paulo");
+          echo date("Y-m-d H:i:s");
+          ?>
+          EOF
+
+          apache2-foreground
+
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: html
+
+        resources:
+          limits:
+            cpu: "1"
+            memory: "250Mi"
+          requests:
+            cpu: "0.3"
+            memory: "50Mi"
+
+      volumes:
+      - name: html
+        emptyDir: {}

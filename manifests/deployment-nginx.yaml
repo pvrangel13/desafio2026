@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: webserver
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - image: nginx
+        name: webserver
+
+        command:
+        - /bin/bash
+        - -c
+        - |
+          echo '<meta charset="UTF-8"><h1>Olá, Mundo!</h1>' > /usr/share/nginx/html/index.html
+          nginx -g 'daemon off;'
+
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: html
+
+        resources:
+          limits:
+            cpu: "1"
+            memory: "250Mi"
+          requests:
+            cpu: "0.3"
+            memory: "50Mi"
+
+      volumes:
+      - name: html
+        emptyDir: {}

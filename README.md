@@ -12,13 +12,56 @@ Optei por utilizar um cluster local com Kind para simplificar a execução e per
 
 # Tecnologias utilizadas
 
-* Bash
-* YAML
-* Kind
 * Kubernetes
+* Kind
+* Docker
 * NGINX
 * PHP + Apache
+* Bash
+* YAML
 
+---
+
+# Pré-requisitos
+
+Antes de executar o projeto é necessário possuir:
+
+* Docker instalado e em execução.
+* Kind instalado.
+* kubectl instalado e configurado no PATH.
+
+Verificando as instalações:
+
+Docker
+
+```bash
+docker version
+```
+
+Kind
+
+```bash
+kind version
+```
+
+kubectl
+
+```bash
+kubectl version --client
+```
+
+---
+
+# Ambiente utilizado
+
+O projeto foi desenvolvido e validado utilizando:
+
+* Ubuntu
+* Docker
+* Kind
+* Kubernetes
+
+> Este projeto foi desenvolvido e testado utilizando Kind. Para execução em outros ambientes Kubernetes, pequenos ajustes podem ser necessários.
 
 ---
 
@@ -26,9 +69,9 @@ Optei por utilizar um cluster local com Kind para simplificar a execução e per
 
 ## Aplicação 1 - NGINX
 
-Aplicação responsável por retornar um texto fixo.
+Responsável por retornar um texto fixo.
 
-Exemplo de retorno:
+Exemplo:
 
 ```html
 Olá, Mundo!
@@ -38,15 +81,15 @@ Olá, Mundo!
 
 ## Aplicação 2 - PHP
 
-Aplicação responsável por retornar a data e hora atual do servidor.
+Responsável por retornar a data e hora atual do servidor.
 
-Exemplo de retorno:
+Exemplo:
 
 ```text
 2026-06-17 17:00:00
 ```
 
-O timezone foi configurado para:
+Timezone configurado:
 
 ```text
 America/Sao_Paulo
@@ -104,28 +147,18 @@ O script realiza:
 
 * Criação do cluster Kind.
 * Aplicação dos manifestos Kubernetes.
-* Criação das aplicações.
-* Criação dos Services para acesso externo.
+* Criação dos Deployments.
+* Criação dos Services.
 
 ---
 
 # Validando o ambiente
 
-Verificar Deployments:
-
 ```bash
 kubectl get deployments
-```
 
-Verificar Pods:
-
-```bash
 kubectl get pods
-```
 
-Verificar Services:
-
-```bash
 kubectl get svc
 ```
 
@@ -148,8 +181,6 @@ http://IP_DO_NODE:31878/index.php
 ---
 
 # Fluxo de atualização
-
-Atualmente qualquer alteração nas aplicações ou manifestos segue o fluxo abaixo:
 
 ```text
 Alteração do código ou manifesto
@@ -196,7 +227,7 @@ Não foi implementada nesta versão.
 Como evolução da solução, eu consideraria:
 
 * Fluent Bit para coleta de logs.
-* Loki para armazenamento.
+* Loki para armazenamento centralizado.
 * Grafana para visualização e monitoramento.
 
 ---
